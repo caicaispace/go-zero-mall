@@ -1,0 +1,31 @@
+### create
+POST http://127.0.0.1:8000/api/product
+content-type: application/json
+
+{
+    "name": "苹果",
+    "desc": "这个一个又大又圆的苹果，5块钱一个！",
+    "stock": 100,
+    "amount": 5,
+    "status": 0
+}
+
+### detail
+GET http://127.0.0.1:8000/api/product/1
+content-type: application/json
+
+### update
+PUT http://127.0.0.1:8000/api/product/1
+content-type: application/json
+
+{
+    "name": "苹果",
+    "desc": "这个一个又大又圆的苹果，5块钱一个！！",
+    "stock": 100,
+    "amount": 5,
+    "status": 0
+}
+
+### remove
+DELETE http://127.0.0.1:8000/api/product/1
+content-type: application/json

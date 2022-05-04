@@ -1,0 +1,16 @@
+Name: product.rpc
+ListenOn: 0.0.0.0:9004
+
+Etcd:
+  Hosts:
+  - 10.233.76.2:2379
+  Key: product.rpc
+
+Mysql:
+  # DataSource: root:123456@tcp(127.0.0.1:3305)/go-zero-mall?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+  DataSource: go_zero_mall:helloWORLD123456@tcp(rm-uf6z4jgg8369v0938io.mysql.rds.aliyuncs.com:3306)/go-zero-mall?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+
+CacheRedis:
+- Host: redis-999xon.zero:6379
+  Type: node # node可以不写，可以设为cluster
+  # Pass: xxx # 如果有密码

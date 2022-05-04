@@ -1,0 +1,35 @@
+### create
+POST http://127.0.0.1:8000/api/order
+content-type: application/json
+
+{
+    "uid": 1,
+    "pid": 1,
+    "amount": 5,
+    "status": 0
+}
+
+### detail
+GET http://127.0.0.1:8000/api/order/1
+content-type: application/json
+
+### update
+PUT http://127.0.0.1:8000/api/order/1
+content-type: application/json
+
+{
+    "uid": 1,
+    "pid": 1,
+    "amount": 5,
+    "status": 1
+}
+
+
+### list
+GET http://127.0.0.1:8000/api/order
+content-type: application/json
+
+
+### remove
+DELETE http://127.0.0.1:8000/api/order/1
+content-type: application/json

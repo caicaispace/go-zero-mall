@@ -1,0 +1,94 @@
+syntax = "proto3";
+
+package vipclient;
+
+option go_package = "vip";
+
+// vip创建
+message CreateRequest {
+    string  Title = 1;
+    string  TitleSimple = 2;
+    string  Desc = 3;
+    string  Appliance = 4;
+    int64   Tp = 5;
+    int64   ClassType = 6;
+    int64   AuthId = 7;
+    int64   Level = 8;
+    int64   Sort = 9;
+    float   Price = 10;
+    float   OriginalPrice = 11;
+    int64   DayLimit = 12;
+    int64   TotalLimit = 13;
+    int64   ResetCycle = 14;
+    int64   ParentId = 15;
+    int64   SingleId = 16;
+    int64   IsUsable = 17;
+}
+message CreateResponse {
+	int64 id = 1;
+}
+// vip创建
+
+// vip修改
+message UpdateRequest {
+    string  Title = 1;
+    string  TitleSimple = 2;
+    string  Desc = 3;
+    string  Appliance = 4;
+    int64   Tp = 5;
+    int64   ClassType = 6;
+    int64   AuthId = 7;
+    int64   Level = 8;
+    int64   Sort = 9;
+    float   Price = 10;
+    float   OriginalPrice = 11;
+    int64   DayLimit = 12;
+    int64   TotalLimit = 13;
+    int64   ResetCycle = 14;
+    int64   ParentId = 15;
+    int64   SingleId = 16;
+    int64   IsUsable = 17;
+}
+message UpdateResponse {
+}
+// vip修改
+
+// vip删除
+message RemoveRequest {
+    int64 id = 1;
+}
+message RemoveResponse {
+}
+// vip删除
+
+// vip详情
+message DetailRequest {
+    int64 id = 1;
+}
+message DetailResponse {
+    string  Title = 1;
+    string  TitleSimple = 2;
+    string  Desc = 3;
+    string  Appliance = 4;
+    int64   Tp = 5;
+    int64   ClassType = 6;
+    int64   AuthId = 7;
+    int64   Level = 8;
+    int64   Sort = 9;
+    float   Price = 10;
+    float   OriginalPrice = 11;
+    int64   DayLimit = 12;
+    int64   TotalLimit = 13;
+    int64   ResetCycle = 14;
+    int64   ParentId = 15;
+    int64   SingleId = 16;
+    int64   IsUsable = 17;
+}
+// vip详情
+
+service Product {
+    rpc Create(CreateRequest) returns(CreateResponse);
+    rpc Update(UpdateRequest) returns(UpdateResponse);
+    rpc Remove(RemoveRequest) returns(RemoveResponse);
+    rpc Detail(DetailRequest) returns(DetailResponse);
+}

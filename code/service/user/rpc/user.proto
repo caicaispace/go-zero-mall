@@ -1,0 +1,103 @@
+syntax = "proto3";
+
+package userclient;
+
+option go_package = "user";
+
+// 用户登录
+message LoginRequest {
+    string Mobile = 1;
+    string Password = 2;
+}
+message LoginResponse {
+    int64 Id = 1;
+    string Name = 2;
+    int64 Gender = 3;
+    string Mobile = 4;
+}
+// 用户登录
+
+// 用户注册
+message RegisterRequest {
+    string Name = 1;
+    int64 Gender = 2;
+    string Mobile = 3;
+    string Password = 4;
+}
+message RegisterResponse {
+    int64 Id = 1;
+    string Name = 2;
+    int64 Gender = 3;
+    string Mobile = 4;
+}
+// 用户注册
+
+// 用户信息
+message UserInfoRequest {
+    int64 Id = 1;
+}
+message UserInfoResponse {
+    int64 Id = 1;
+    string Name = 2;
+    int64 Gender = 3;
+    string Mobile = 4;
+}
+// 用户信息
+
+// 用户vips
+message UserVipListRequest {
+    int64 UserId = 1;
+}
+
+message UserVip {
+    int64 Id = 1;
+    int64 UserId = 2;
+    int64 VipId = 3;
+    int64 VipType = 4;
+    int64 VideoId = 5;
+    int64 OrderId = 6;
+    int64 LicenseId = 7;
+    int64 StartTime = 8;
+    int64 EndTime = 9;
+    int64 DayLimit = 10;
+    int64 TotalLimit = 11;
+    string LastAdminUser = 12;
+    string Remark = 13;
+    int64 CreatedTime = 14;
+}
+
+message UserVipListResponse {
+    repeated UserVip data = 1;
+}
+// 用户vips
+
+// 用户购物车
+message UserCartListRequest {
+    int64 UserId = 1;
+}
+
+message UserCart {
+    int64 Id         = 1;
+    int64 UserId     = 2;
+    string Username  = 3;
+    int64 SourceId   = 4;
+    int64 SourceType = 5;
+    int64 LicenseType= 6;
+    int64 VideoRate  = 7;
+    int64 SourceNum  = 8;
+    int64 CreatedTime= 9;
+    int64 UpdatedTime= 10;
+}
+
+message UserCartListResponse {
+    repeated UserCart data = 1;
+}
+// 用户购物车
+
+service User {
+    rpc Login(LoginRequest) returns(LoginResponse);
+    rpc Register(RegisterRequest) returns(RegisterResponse);
+    rpc UserInfo(UserInfoRequest) returns(UserInfoResponse);
+    rpc UserVipList(UserVipListRequest) returns(UserVipListResponse);
+    rpc UserCartList(UserCartListRequest) returns(UserCartListResponse);
+}

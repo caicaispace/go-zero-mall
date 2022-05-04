@@ -1,0 +1,23 @@
+### search
+POST http://127.0.0.1:8004/api/search/search
+content-type: application/json
+
+{
+    "keyword": "美女 search"
+}
+
+### pinyin
+POST http://127.0.0.1:8004/api/search/pinyin
+content-type: application/json
+
+{
+    "keyword": "美女 pinyin"
+}
+
+### banned
+POST http://127.0.0.1:8004/api/search/banned
+content-type: application/json
+
+{
+    "keyword": "美女 banned"
+}

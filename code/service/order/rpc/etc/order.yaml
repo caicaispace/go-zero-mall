@@ -1,0 +1,30 @@
+Name: order.rpc
+ListenOn: 127.0.0.1:9002
+
+Etcd:
+  Hosts:
+  - 127.0.0.1:2379
+  Key: order.rpc
+
+Mysql:
+  # DataSource: root:123456@tcp(127.0.0.1:3306)/go-zero-mall?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+  DataSource: go_zero_mall:helloWORLD123456@tcp(rm-uf6z4jgg8369v0938io.mysql.rds.aliyuncs.com:3306)/go-zero-mall?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+
+CacheRedis:
+- Host: 127.0.0.1:6379
+  Type: node
+  Pass:
+
+UserRpc:
+  App: userapi                          # App 标识
+  Token: 6jKNZbEpYGeUMAifz10gOnmoty3TV  # Token 值
+  Etcd:
+    Hosts:
+    - 127.0.0.1:2379
+    Key: user.rpc
+
+ProductRpc:
+  Etcd:
+    Hosts:
+    - 127.0.0.1:2379
+    Key: product.rpc

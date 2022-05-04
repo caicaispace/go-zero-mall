@@ -1,0 +1,25 @@
+### login
+POST http://127.0.0.1:8000/api/user/login
+content-type: application/json
+
+{
+    "mobile": "13333333333",
+    "password": "123456"
+}
+
+
+### register
+POST http://127.0.0.1:8000/api/user/register
+content-type: application/json
+
+{
+    "name":"ving",
+    "gender":1,
+    "mobile": "15212230311",
+    "password": "123456"
+}
+
+### userinfo
+GET http://127.0.0.1:8000/api/user/1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDYzMDExMDEsImlhdCI6MTY0NjIxNDcwMSwidWlkIjoxfQ.-kgYbva3C_4VDwgvt3aOaxn653FefVEkxSxmPvybjCY

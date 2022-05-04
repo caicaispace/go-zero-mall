@@ -1,0 +1,95 @@
+pipeline {
+  agent {
+    node {
+      label 'go'
+    }
+
+  }
+  stages {
+    stage('clone code') {
+      agent none
+      steps {
+        git(url: 'https://gitee.com/go-open-project/go-zero-mall.git', changelog: true, poll: false)
+        sh 'ls -al'
+      }
+    }
+
+    stage('deploy user') {
+      // agent none
+      steps {
+        container ('go') {
+          withCredentials([
+            kubeconfigFile(
+              credentialsId: env.KUBECONFIG_CREDENTIAL_ID,
+              variable: 'KUBECONFIG'
+            )]) 
+            {
+              sh 'envsubst < code/service/user/rpc/deploy.yaml | kubectl apply -f -'
+            }
+        }
+      }
+    }
+
+    stage('deploy product') {
+      // agent none
+      steps {
+        container ('go') {
+          withCredentials([
+            kubeconfigFile(
+              credentialsId: env.KUBECONFIG_CREDENTIAL_ID,
+              variable: 'KUBECONFIG'
+            )]) 
+            {
+              sh 'envsubst < code/service/product/rpc/deploy.yaml | kubectl apply -f -'
+            }
+        }
+      }
+    }
+
+    stage('deploy order') {
+      // agent none
+      steps {
+        container ('go') {
+          withCredentials([
+            kubeconfigFile(
+              credentialsId: env.KUBECONFIG_CREDENTIAL_ID,
+              variable: 'KUBECONFIG'
+            )]) 
+            {
+              sh 'envsubst < code/service/order/rpc/deploy.yaml | kubectl apply -f -'
+            }
+        }
+      }
+    }
+
+    stage('deploy gateway') {
+      // agent none
+      steps {
+        container ('go') {
+          withCredentials([
+            kubeconfigFile(
+              credentialsId: env.KUBECONFIG_CREDENTIAL_ID,
+              variable: 'KUBECONFIG'
+            )]) 
+            {
+              sh 'envsubst < code/service/gateway/api/deploy.yaml | kubectl apply -f -'
+            }
+        }
+      }
+    }
+
+  }
+  environment {
+    DOCKER_CREDENTIAL_ID = 'dockerhub-id'
+    GITHUB_CREDENTIAL_ID = 'github-id'
+    KUBECONFIG_CREDENTIAL_ID = 'demo-kubeconfig'
+    REGISTRY = 'registry.cn-shanghai.aliyuncs.com'
+    DOCKERHUB_NAMESPACE = 'ttsimple'
+    ALIYUNHUB_NAMESPACE = 'ttsimple'
+    GITHUB_ACCOUNT = 'kubesphere'
+    APP_NAME = 'go-zero-mall-gateway'
+  }
+  parameters {
+    string(name: 'TAG_NAME', defaultValue: '', description: '')
+  }
+}

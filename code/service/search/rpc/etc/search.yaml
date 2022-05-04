@@ -1,0 +1,13 @@
+Name: search.rpc
+ListenOn: 127.0.0.1:9004
+
+Etcd:
+  Hosts:
+  - 127.0.0.1:2379
+  Key: search.rpc
+
+# Telemetry:
+#   Name: search.rpc
+#   Endpoint: http://127.0.0.1:5000/api/traces
+#   Sampler: 1.0
+#   Batcher: jaeger

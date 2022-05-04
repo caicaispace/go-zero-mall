@@ -1,0 +1,31 @@
+### create
+POST http://127.0.0.1:8000/api/pay/create
+content-type: application/json
+
+{
+    "uid": 1,
+    "oid": 1,
+    "amount": 100
+}
+
+### detail
+GET http://127.0.0.1:8000/api/pay/1
+content-type: application/json
+
+{
+    "id": 1
+}
+
+
+### callback
+POST http://127.0.0.1:8000/api/pay/callback
+content-type: application/json
+
+{
+    "id": 1,
+    "uid": 1,
+    "oid": 1,
+    "amount": 100,
+    "source": 1,
+    "status": 1
+}

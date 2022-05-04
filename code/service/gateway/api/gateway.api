@@ -1,0 +1,464 @@
+type (
+	Response {
+		Code int32  `json:"code"`
+		Msg  string `json:"msg"`
+	}
+)
+// -------- index --------
+
+type (
+	IndexResponse {
+		Msg string `json:"msg"`
+	}
+)
+
+service gateway {
+	@handler Index
+	get / returns (IndexResponse)
+}
+
+// -------- common --------
+
+type (
+	ComPinyinRequest {
+		Keyword string `json:"keyword"`
+	}
+	ComPinyinResponse {
+		List []map[string]string `json:"list"`
+	}
+
+	ComBannedRequest {
+		Keyword string `json:"keyword"`
+	}
+	ComBannedResponse {
+		List []map[string]string `json:"list"`
+	}
+)
+
+service gateway {
+	@handler ComPinyin
+	post /api/com/pinyin(ComPinyinRequest) returns (ComPinyinResponse)
+	
+	@handler ComBanned
+	post /api/com/banned(ComBannedRequest) returns (ComBannedResponse)
+}
+
+// -------- order --------
+
+type (
+	// 订单创建
+	OrderCreateRequest {
+		Pid    int64 `json:"pid"`
+		Amount int64 `json:"amount"`
+		Status int64 `json:"status"`
+	}
+	OrderCreateResponse {
+		Response
+		Id int64 `json:"id"`
+	}
+	// 订单创建
+
+	// 订单修改
+	OrderUpdateRequest {
+		Id     int64 `path:"id"`
+		Uid    int64 `json:"uid,optional"`
+		Pid    int64 `json:"pid,optional"`
+		Amount int64 `json:"amount,optional"`
+		Status int64 `json:"status,optional"`
+	}
+	OrderUpdateResponse {
+	}
+	// 订单修改
+
+	// 订单删除
+	OrderRemoveRequest {
+		Id int64 `path:"id"`
+	}
+	OrderRemoveResponse {
+	}
+	// 订单删除
+
+	// 订单详情
+	OrderDetailRequest {
+		Id int64 `path:"id"`
+	}
+	OrderDetailResponse {
+		Id     int64 `json:"id"`
+		Uid    int64 `json:"uid"`
+		Pid    int64 `json:"pid"`
+		Amount int64 `json:"amount"`
+		Status int64 `json:"status"`
+	}
+	// 订单详情
+
+	// 订单列表
+	OrderListRequest {
+		Uid int64 `json:"uid"`
+	}
+	OrderListResponse {
+		Id     int64 `json:"id"`
+		Uid    int64 `json:"uid"`
+		Pid    int64 `json:"pid"`
+		Amount int64 `json:"amount"`
+		Status int64 `json:"status"`
+	}
+	// 订单列表
+)
+
+@server(
+	jwt: Auth
+)
+service gateway {
+	// order
+	@handler OrderCreate
+	post /api/order(OrderCreateRequest) returns (OrderCreateResponse)
+	@handler OrderUpdate
+	put /api/order/:id(OrderUpdateRequest) returns (OrderUpdateResponse)
+	@handler OrderRemove
+	delete /api/order/:id(OrderRemoveRequest) returns (OrderRemoveResponse)
+	@handler OrderDetail
+	get /api/order/:id(OrderDetailRequest) returns (OrderDetailResponse)
+	@handler OrderList
+	get /api/order(OrderListRequest) returns (OrderListResponse)
+}
+
+// -------- pay --------
+
+type (
+	// 支付创建
+	PayCreateRequest {
+		Uid    int64 `json:"uid"`
+		Oid    int64 `json:"oid"`
+		Amount int64 `json:"amount"`
+	}
+	PayCreateResponse {
+		Id int64 `json:"id"`
+	}
+	// 支付创建
+
+	// 支付详情
+	PayDetailRequest {
+		Id int64 `path:"id"`
+	}
+	PayDetailResponse {
+		Id     int64 `json:"id"`
+		Uid    int64 `json:"uid"`
+		Oid    int64 `json:"oid"`
+		Amount int64 `json:"amount"`
+		Source int64 `json:"source"`
+		Status int64 `json:"status"`
+	}
+	// 支付详情
+
+	// 支付回调
+	PayCallbackRequest {
+		Id     int64 `json:"id"`
+		Uid    int64 `json:"uid"`
+		Oid    int64 `json:"oid"`
+		Amount int64 `json:"amount"`
+		Source int64 `json:"source"`
+		Status int64 `json:"status"`
+	}
+	PayCallbackResponse {
+	}
+	// 支付回调
+)
+
+@server(
+	jwt: Auth
+)
+service gateway {
+	// pay
+	@handler PayCreate
+	post /api/pay(PayCreateRequest) returns (PayCreateResponse)
+	@handler PayDetail
+	get /api/pay/:id(PayDetailRequest) returns (PayDetailResponse)
+	@handler PayCallback
+	post /api/pay/callback(PayCallbackRequest) returns (PayCallbackResponse)
+}
+
+// -------- product --------
+
+type (
+	// 产品创建
+	ProductCreateRequest {
+		Name   string `json:"name"`
+		Desc   string `json:"desc"`
+		Stock  int64  `json:"stock"`
+		Amount int64  `json:"amount"`
+		Status int64  `json:"status"`
+	}
+	ProductCreateResponse {
+		Id int64 `path:"id"`
+	}
+	// 产品创建
+
+	// 产品修改
+	ProductUpdateRequest {
+		Id     int64  `path:"id"`
+		Name   string `json:"name,optional"`
+		Desc   string `json:"desc,optional"`
+		Stock  int64  `json:"stock"`
+		Amount int64  `json:"amount,optional"`
+		Status int64  `json:"status,optional"`
+	}
+	ProductUpdateResponse {
+	}
+	// 产品修改
+
+	// 产品删除
+	ProductRemoveRequest {
+		Id int64 `path:"id"`
+	}
+	ProductRemoveResponse {
+	}
+	// 产品删除
+
+	// 产品详情
+	ProductDetailRequest {
+		Id int64 `path:"id"`
+	}
+	ProductDetailResponse {
+		Id     int64  `json:"id"`
+		Name   string `json:"name"`
+		Desc   string `json:"desc"`
+		Stock  int64  `json:"stock"`
+		Amount int64  `json:"amount"`
+		Status int64  `json:"status"`
+	}
+	// 产品详情
+
+	// 产品详情
+	ProductInfoReq {
+		Id int64 `path:"id"`
+	}
+	// 产品详情
+)
+
+@server(
+	jwt: Auth
+)
+service gateway {
+	@handler ProductCreate
+	post /api/product(ProductCreateRequest) returns (ProductCreateResponse)
+	
+	@handler ProductUpdate
+	put /api/product/:id(ProductUpdateRequest) returns (ProductUpdateResponse)
+	
+	@handler ProductRemove
+	delete /api/product/:id(ProductRemoveRequest) returns (ProductRemoveResponse)
+	
+	@handler ProductDetail
+	get /api/product/detail(ProductDetailRequest) returns (ProductDetailResponse)
+	
+	@handler ProductInfo
+	get /api/product/:id(ProductInfoReq) returns (ProductDetailResponse)
+}
+
+// -------- search --------
+
+type (
+	SearchRequest {
+		Keyword string `json:"keyword"`
+	}
+	SearchResponse {
+		List []map[string]string `json:"list"`
+	}
+)
+
+service gateway {
+	@handler Search
+	post /api/search/search(SearchRequest) returns (SearchResponse)
+}
+
+// -------- user --------
+
+type (
+	// 用户登录
+	LoginRequest {
+		Mobile   string `json:"mobile"`
+		Password string `json:"password"`
+	}
+	LoginResponse {
+		AccessToken  string `json:"accessToken"`
+		AccessExpire int64  `json:"accessExpire"`
+	}
+	// 用户登录
+
+	// 用户注册
+	RegisterRequest {
+		Name     string `json:"name"`
+		Gender   int64  `json:"gender"`
+		Mobile   string `json:"mobile"`
+		Password string `json:"password"`
+	}
+	RegisterResponse {
+		Id     int64  `json:"id"`
+		Name   string `json:"name"`
+		Gender int64  `json:"gender"`
+		Mobile string `json:"mobile"`
+	}
+	// 用户注册
+
+	// 用户信息
+	UserInfoResponse {
+		Id     int64  `json:"id"`
+		Name   string `json:"name"`
+		Gender int64  `json:"gender"`
+		Mobile string `json:"mobile"`
+	}
+	// 用户信息
+
+	// 用户vip
+	UserVipResponse {
+		Id            int64  `json:"id"`
+		UserId        int64  `json:"user_id"`
+		VipId         int64  `json:"vip_id"`
+		VipType       int64  `json:"vip_type"`        // 对应 vip 表 type
+		VideoId       int64  `json:"video_id"`        // 视频 id（单张购买使用）
+		OrderId       int64  `json:"order_id"`        // 订单 id
+		LicenseId     int64  `json:"license_id"`      // cd_user_vip_license表id
+		StartTime     int64  `json:"start_time"`      // 起效时间
+		EndTime       int64  `json:"end_time"`        // 失效时间
+		DayLimit      int64  `json:"day_limit"`       // 日下载限制
+		TotalLimit    int64  `json:"total_limit"`     // 总下载限制
+		LastAdminUser string `json:"last_admin_user"` // 最后一个操作vip的人
+		Remark        string `json:"remark"`          // 备注{为什么添加}
+		CreatedTime   int64  `json:"created_time"`
+	}
+	// 用户vip
+
+	// 用户购物车
+	UserCartResponse {
+		Id          int64  `json:"id"`
+		UserId      int64  `json:"user_id"`
+		Username    string `json:"username"`
+		SourceId    int64  `json:"source_id"`
+		SourceType  int64  `json:"source_type"`
+		LicenseType int64  `json:"license_type"` // 授权类型(100:个人,200:企业,210企业plus,300:单张)
+		VideoRate   int64  `json:"video_rate"`   // 等级\\0 : 其他\\1 : 1280x720\\2 : 1920x1080\\3 : 4096x2169(4k)\\4 : 8192x4320(8k)\\5 : 2048x1080(2k)\\6 : 3840x2160(UHD 4K)\\7 : 7680x4320(UHD 8K)
+		SourceNum   int64  `json:"source_num"`   // 素材数量(用于购买多个)
+		CreatedTime int64  `json:"created_time"`
+		UpdatedTime int64  `json:"updated_time"`
+	}
+	// 用户购物车
+)
+
+service gateway {
+	@handler Login
+	post /api/user/login(LoginRequest) returns (LoginResponse)
+	@handler Register
+	post /api/user/register(RegisterRequest) returns (RegisterResponse)
+}
+
+@server(
+	jwt: Auth
+)
+service gateway {
+	@handler UserInfo
+	get /api/user returns (UserInfoResponse)
+	@handler UserVipList
+	get /api/user/vip returns ([]*UserVipResponse)
+	@handler UserCartList
+	get /api/user/cart returns ([]*UserCartResponse)
+}
+
+// -------- vip --------
+
+type (
+	// vip创建
+	VipCreateRequest {
+		Title         string  `db:"title"`          // 标题
+		TitleSimple   string  `db:"title_simple"`   // 简写标题
+		Desc          string  `db:"desc"`           // 描述
+		Appliance     string  `db:"appliance"`      // 适用范围
+		Tp            int64   `db:"type"`           // 1:免费 100:个人 200:企业 300:单张个人 400:单张企业
+		ClassType     int64   `db:"class_type"`     // 分类 vip 类型
+		AuthId        int64   `db:"auth_id"`        // 授权类型
+		Level         int64   `db:"level"`          // 等级
+		Sort          int64   `db:"sort"`           // 排序
+		Price         float64 `db:"price"`          // 价格
+		OriginalPrice float64 `db:"original_price"` // 原价
+		DayLimit      int64   `db:"day_limit"`      // 日下载限制
+		TotalLimit    int64   `db:"total_limit"`    // 总下载限制
+		ResetCycle    int64   `db:"reset_cycle"`    // 重置周期（单位/天）
+		ParentId      int64   `db:"parent_id"`      // 父级id
+		SingleId      int64   `db:"single_id"`      // VIP对应单张 id (0代表单个购买价格，大于0代表VIP价格(其中1代表无对应售卖的单款价格)）
+		IsUsable      int64   `db:"is_usable"`      // 是否可用
+	}
+	VipCreateResponse {
+		Id int64 `json:"id"`
+	}
+	// vip创建
+
+	// vip修改
+	VipUpdateRequest {
+		Title         string  `db:"title"`          // 标题
+		TitleSimple   string  `db:"title_simple"`   // 简写标题
+		Desc          string  `db:"desc"`           // 描述
+		Appliance     string  `db:"appliance"`      // 适用范围
+		Tp            int64   `db:"type"`           // 1:免费 100:个人 200:企业 300:单张个人 400:单张企业
+		ClassType     int64   `db:"class_type"`     // 分类 vip 类型
+		AuthId        int64   `db:"auth_id"`        // 授权类型
+		Level         int64   `db:"level"`          // 等级
+		Sort          int64   `db:"sort"`           // 排序
+		Price         float64 `db:"price"`          // 价格
+		OriginalPrice float64 `db:"original_price"` // 原价
+		DayLimit      int64   `db:"day_limit"`      // 日下载限制
+		TotalLimit    int64   `db:"total_limit"`    // 总下载限制
+		ResetCycle    int64   `db:"reset_cycle"`    // 重置周期（单位/天）
+		ParentId      int64   `db:"parent_id"`      // 父级id
+		SingleId      int64   `db:"single_id"`      // VIP对应单张 id (0代表单个购买价格，大于0代表VIP价格(其中1代表无对应售卖的单款价格)）
+		IsUsable      int64   `db:"is_usable"`      // 是否可用
+	}
+	VipUpdateResponse {
+	}
+	// vip修改
+
+	// vip删除
+	VipRemoveRequest {
+		Id int64 `json:"id"`
+	}
+	VipRemoveResponse {
+	}
+	// vip删除
+
+	// vip详情
+	VipDetailRequest {
+		Id int64 `json:"id"`
+	}
+	VipDetailResponse {
+		Id            int64   `db:"id"`
+		Title         string  `db:"title"`          // 标题
+		TitleSimple   string  `db:"title_simple"`   // 简写标题
+		Desc          string  `db:"desc"`           // 描述
+		Appliance     string  `db:"appliance"`      // 适用范围
+		Tp            int64   `db:"type"`           // 1:免费 100:个人 200:企业 300:单张个人 400:单张企业
+		ClassType     int64   `db:"class_type"`     // 分类 vip 类型
+		AuthId        int64   `db:"auth_id"`        // 授权类型
+		Level         int64   `db:"level"`          // 等级
+		Sort          int64   `db:"sort"`           // 排序
+		Price         float64 `db:"price"`          // 价格
+		OriginalPrice float64 `db:"original_price"` // 原价
+		DayLimit      int64   `db:"day_limit"`      // 日下载限制
+		TotalLimit    int64   `db:"total_limit"`    // 总下载限制
+		ResetCycle    int64   `db:"reset_cycle"`    // 重置周期（单位/天）
+		ParentId      int64   `db:"parent_id"`      // 父级id
+		SingleId      int64   `db:"single_id"`      // VIP对应单张 id (0代表单个购买价格，大于0代表VIP价格(其中1代表无对应售卖的单款价格)）
+		IsUsable      int64   `db:"is_usable"`      // 是否可用
+		UpdatedTime   int64   `db:"updated_time"`
+		CreatedTime   int64   `db:"created_time"`
+	}
+	// vip详情
+)
+
+service gateway {
+	@handler VipCreate
+	post /api/vip(VipCreateRequest) returns (VipCreateResponse)
+	@handler VipUpdate
+	put /api/vip(VipUpdateRequest) returns (VipUpdateResponse)
+	@handler VipRemove
+	delete /api/vip(VipRemoveRequest) returns (VipRemoveResponse)
+	@handler VipDetail
+	get /api/vip(VipDetailRequest) returns (VipDetailResponse)
+}

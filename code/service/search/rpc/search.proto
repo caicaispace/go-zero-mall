@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package searchclient;
+
+option go_package = "search";
+
+// 搜索
+message SearchRequest {
+    string Keyword = 1;
+}
+
+message SearchItem {
+    string Title = 1;
+    string Url = 2;
+}
+message SearchResponse {
+    repeated SearchItem List = 1;
+}
+// 搜索
+
+// 拼音
+message PinyinRequest {
+    string Keyword = 1;
+}
+
+message PinyinItem {
+    string Title = 1;
+    string Url = 2;
+}
+message PinyinResponse {
+    repeated PinyinItem List = 1;
+}
+// 拼音
+
+// 违禁词
+message BannedRequest {
+    string Keyword = 1;
+}
+
+message BannedItem {
+    string Title = 1;
+    string Url = 2;
+}
+message BannedResponse {
+    repeated BannedItem List = 1;
+}
+// 违禁词
+
+service Search {
+    rpc Search(SearchRequest) returns(SearchResponse);
+    rpc Pinyin(PinyinRequest) returns(PinyinResponse);
+    rpc Banned(BannedRequest) returns(BannedResponse);
+}

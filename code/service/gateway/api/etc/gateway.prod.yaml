@@ -1,0 +1,41 @@
+Name: gateway
+Host: 0.0.0.0
+Port: 8000
+
+Auth:
+  AccessSecret: uOvKLmVfztaXGpNYd4Z0I1SiT7MweJhl
+  AccessExpire: 86400
+
+UserRpc:
+  App: userapi                          # App 标识
+  Token: 6jKNZbEpYGeUMAifz10gOnmoty3TV  # Token 值
+  Etcd:
+    Hosts:
+    - 10.233.76.2:2379
+    Key: user.rpc
+
+OrderRpc:
+  Etcd:
+    Hosts:
+    - 10.233.76.2:2379
+    Key: order.rpc
+
+PayRpc:
+  Etcd:
+    Hosts:
+    - 10.233.76.2:2379
+    Key: pay.rpc
+
+ProductRpc:
+  App: userapi                          # App 标识
+  Token: 6jKNZbEpYGeUMAifz10gOnmoty3TV  # Token 值
+  Etcd:
+    Hosts:
+    - 10.233.76.2:2379
+    Key: product.rpc
+
+SearchRpc:
+  Etcd:
+    Hosts:
+    - 10.233.76.2:2379
+    Key: search.rpc

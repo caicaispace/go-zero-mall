@@ -1,0 +1,6 @@
+Name: vip.rpc
+ListenOn: 0.0.0.0:9005
+Etcd:
+  Hosts:
+  - 10.233.76.2:2379
+  Key: vip.rpc

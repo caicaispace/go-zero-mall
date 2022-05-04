@@ -1,0 +1,36 @@
+Name: user.rpc
+ListenOn: 0.0.0.0:9001
+
+Etcd:
+  Hosts:
+  - 10.233.76.2:2379
+  Key: user.rpc
+
+Mysql:
+  DataSource: go_zero_mall:helloWORLD123456@tcp(rm-uf6z4jgg8369v0938io.mysql.rds.aliyuncs.com:3306)/go-zero-mall?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+
+CacheRedis:
+- Host: redis-999xon.zero:6379
+  Type: node
+  Pass:
+
+Salt: HWVOFkGgPTryzICwd7qnJaZR9KQ2i8xe
+
+Auth: true               # 是否开启 Auth 验证
+StrictControl: true      # 是否开启严格模式
+Redis:                   # 指定 Redis 服务
+  Key: rpc:auth:user     # 指定 Key 应为 hash 类型
+  Host: redis-999xon.zero:6379
+  Type: node
+  Pass:
+
+# Prometheus:
+#   Host: 0.0.0.0
+#   Port: 9090
+#   Path: /metrics
+
+# Telemetry:
+#   Name: user.rpc
+#   Endpoint: http://jaeger:14268/api/traces
+#   Sampler: 1.0
+#   Batcher: jaeger
